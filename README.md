@@ -5,3 +5,7 @@
 Real-time health tracking and analytics application protected by VibeSecurity AI Code Guard.
 
 Continuous defense gate active: every commit and pull request is scanned for 30+ CWE and OWASP security vulnerabilities before deployment.
+
+- Real-Time Push Protection: Active
+- CI/CD Gate: Strict
+- Live Alerts: Connected to VibeSecurity Dashboard
