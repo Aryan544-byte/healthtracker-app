@@ -283,9 +283,54 @@ def notify_realtime_stream(critical_count: int, high_count: int, findings: list,
         import time
 
         is_safe = (critical_count == 0 and high_count == 0)
-        repo = os.getenv("GITHUB_REPOSITORY", "Aryan544-byte/VibeSecurity")
-        branch = os.getenv("GITHUB_REF_NAME", "main")
-        committer = os.getenv("GITHUB_ACTOR", "Aryan544-byte")
+
+        repo = os.getenv("GITHUB_REPOSITORY")
+        if not repo:
+            try:
+                origin_url = subprocess.check_output(
+                    ["git", "config", "--get", "remote.origin.url"],
+                    stderr=subprocess.DEVNULL,
+                    text=True
+                ).strip()
+                if origin_url:
+                    clean_repo = re.sub(r'^(https?://github\.com/|git@github\.com:)', '', origin_url)
+                    clean_repo = clean_repo.replace('.git', '').strip()
+                    if clean_repo:
+                        repo = clean_repo
+            except Exception:
+                pass
+        if not repo:
+            repo = "Aryan544-byte/VibeSecurity"
+
+        branch = os.getenv("GITHUB_REF_NAME")
+        if not branch:
+            try:
+                b = subprocess.check_output(
+                    ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                    stderr=subprocess.DEVNULL,
+                    text=True
+                ).strip()
+                if b and b != "HEAD":
+                    branch = b
+            except Exception:
+                pass
+        if not branch:
+            branch = "main"
+
+        committer = os.getenv("GITHUB_ACTOR")
+        if not committer:
+            try:
+                author = subprocess.check_output(
+                    ["git", "config", "--get", "user.name"],
+                    stderr=subprocess.DEVNULL,
+                    text=True
+                ).strip()
+                if author:
+                    committer = author
+            except Exception:
+                pass
+        if not committer:
+            committer = "Aryan544-byte"
         
         inc_id = f"PUSH-{int(time.time()) % 10000}" if is_safe else f"INC-{int(time.time()) % 10000}"
 
