@@ -17,10 +17,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download VibeSecurity Scanner Engine
-        run: |
-          git clone --depth 1 https://github.com/Aryan544-byte/VibeSecurity.git .vibeguard-engine
-
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
@@ -40,7 +36,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://odqoobyxovzqzxhevnaq.supabase.co' }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY || 'sb_publishable_RvzfDniw_RHlWszb-Con3w_ujbl6e_M' }}
         run: |
-          python .vibeguard-engine/backend/cli.py . --fail-on high --changed-only --output security-report.json
+          python .vibeguard/cli.py . --fail-on high --changed-only --output security-report.json
 
       - name: Upload Security Report Artifact
         if: always()
