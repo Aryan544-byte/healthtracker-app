@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+*$py.class
+node_modules/
+security-report.json
+.vibeguard/scanner/__pycache__/
+.vibeguard/utils/__pycache__/

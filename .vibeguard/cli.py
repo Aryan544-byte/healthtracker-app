@@ -322,7 +322,6 @@ def notify_realtime_stream(critical_count: int, high_count: int, findings: list,
                 )
                 if res.returncode == 0:
                     print(f"{CYAN}📡 [Realtime Sync] WebSocket broadcast delivered to Dashboard ({inc_id}){RESET}")
-                    return
                 else:
                     print(f"[Realtime Sync] Node script failed: {res.stderr.strip() or res.stdout.strip()}")
             except Exception as e:

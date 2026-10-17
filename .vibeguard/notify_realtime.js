@@ -65,7 +65,7 @@ async function main() {
             await client.removeChannel(channel);
           } catch {}
           process.exit(0);
-        }, 100);
+        }, 1200);
       }
     }
   });
