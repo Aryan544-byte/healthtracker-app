@@ -1,0 +1,52 @@
+name: VibeSecurity Code Guard
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  security-audit:
+    name: AI Code Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout VibeSecurity Scanner Engine
+        uses: actions/checkout@v4
+        with:
+          repository: Aryan544-byte/VibeSecurity
+          path: .vibeguard-engine
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node.js for Real-Time Broadcast
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Real-Time WebSocket dependencies
+        run: |
+          npm install @supabase/supabase-js --no-save
+
+      - name: Run VibeSecurity CI/CD Scanner & Real-Time Broadcast
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://odqoobyxovzqzxhevnaq.supabase.co' }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY || 'sb_publishable_RvzfDniw_RHlWszb-Con3w_ujbl6e_M' }}
+        run: |
+          python .vibeguard-engine/backend/cli.py . --fail-on high --changed-only --output security-report.json
+
+      - name: Upload Security Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-report
+          path: security-report.json
