@@ -17,11 +17,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout VibeSecurity Scanner Engine
-        uses: actions/checkout@v4
-        with:
-          repository: Aryan544-byte/VibeSecurity
-          path: .vibeguard-engine
+      - name: Download VibeSecurity Scanner Engine
+        run: |
+          git clone --depth 1 https://github.com/Aryan544-byte/VibeSecurity.git .vibeguard-engine
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
